@@ -12,25 +12,14 @@ public:
     /** @brief `constructor` No default constructor, construct the Taquin when you know its size.
      * @param k `int` The size of an k*k Taquin.
      */
-    Taquin(int k)
-    {
-        _k = k;
-        generateCibleTaquin();
-        std::cout << "Etat initial du Taquin: " << std::endl;
-        AfficheCurrentState();
-
-        generateInitialTaquin();
-        std::cout << "Etat mélangé du Taquin: " << std::endl;
-        AfficheCurrentState();
-
-        std::cout << "Generation des etats suivants." << std::endl;
-        generateNextStates();
-    }
+    Taquin(int k);
 
     ~Taquin();
 
     /** @brief `void` Displays the current game state. */
     void AfficheCurrentState();
+
+    bool ResolutionHasard();
 
 private:
     int _k;
@@ -54,9 +43,12 @@ private:
     void generateCibleTaquin();
 
     /** @brief `void` Function to generates all next states to a current given state */
-    void generateNextStates();
+    int generateNextStates(std::vector<std::vector<int>> _gameState);
 
-    void find_zero();
+    /** @brief `void` find the position of zero in the Taquin. */
+    void findZero();
+
+    bool isFinalState();
 };
 
 #endif

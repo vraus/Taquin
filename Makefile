@@ -13,6 +13,7 @@ EXECUTABLE = main
 all: clean $(EXECUTABLE)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p build
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c -o $@ $<
 
 $(EXECUTABLE): $(OBJ_FILES)
@@ -21,4 +22,4 @@ $(EXECUTABLE): $(OBJ_FILES)
 clean:
 	rm -f $(BUILD_DIR)/*.o $(EXECUTABLE)
 
-.PHONY: clean
+.PHONY: clean all

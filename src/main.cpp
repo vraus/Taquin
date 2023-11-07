@@ -19,5 +19,7 @@ int main()
 
     Taquin game(k);
 
+    game.ResolutionHasard();
+
     return 0;
 }
