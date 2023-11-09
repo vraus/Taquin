@@ -6,6 +6,10 @@
 #include <iostream>
 #include <algorithm>
 
+// TODO: Completly refactor all the TAQUIN CLASS.
+//  Use the [8-puzzle instruction](https://www.cs.princeton.edu/courses/archive/spring18/cos226/assignments/8puzzle/index.html)
+//  Of the princeton university as start point
+
 class Taquin
 {
 public:
