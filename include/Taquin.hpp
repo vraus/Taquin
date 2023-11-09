@@ -21,6 +21,8 @@ public:
 
     bool ResolutionHasard();
 
+    friend int operator==(std::vector<std::vector<int>> _taquin1, std::vector<std::vector<int>> _taquin2);
+
 private:
     int _k;
     int _posZero[2];
@@ -48,7 +50,7 @@ private:
     /** @brief `void` find the position of zero in the Taquin. */
     void findZero();
 
-    bool isFinalState();
+    bool isFinalState(std::vector<std::vector<int>> &_gameState);
 };
 
 #endif

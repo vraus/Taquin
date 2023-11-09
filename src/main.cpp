@@ -19,7 +19,27 @@ int main()
 
     Taquin game(k);
 
-    game.ResolutionHasard();
+    int choice = 1;
+
+    do
+    {
+        std::cout << "Choose you resolution method: " << std::endl;
+        std::cout << " * (1) : Random Resolve." << std::endl;
+        std::cout << " * (0) : Exit." << std::endl;
+        std::cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            if (game.ResolutionHasard())
+                std::cout << "Taquin résolu!! " << std::endl;
+            break;
+        case 0:
+            break;
+        default:
+            std::cout << "Not a correct val." << std::endl;
+            break;
+        }
+    } while (choice > 0);
 
     return 0;
 }
