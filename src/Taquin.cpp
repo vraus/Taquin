@@ -1,202 +1,75 @@
 #include "Taquin.hpp"
 
-// Constructors and Shreders
-
 Taquin::Taquin(int k)
 {
-    {
-        _k = k;
-        generateCibleTaquin();
-        generateInitialTaquin();
-        std::cout << "Etat inital du Taquin: " << std::endl;
-        AfficheCurrentState();
-    }
+    _k = k;
+    int val = 1;
+    std::cout << "\nCreation of the initial board." << std::endl;
+    for (int i = 0; i < _k * _k; i++)
+        _board.push_back(val++);
+
+    _board.pop_back();
+    _board.push_back(0);
+
+    std::random_shuffle(_board.begin(), _board.end());
+
+    _mooves = 0;
+
+    std::cout << "\nState of the board: " << std::endl;
+    print();
 }
 
-Taquin::~Taquin() {}
-
-// Private Methods
-
-void Taquin::findZero()
+Taquin::Taquin(std::vector<int> board, int mooves, int k)
 {
-    for (int i = 0; i < _k; i++)
+    _board = board;
+    _mooves = mooves;
+    _k = k;
+}
+
+int Taquin::Hamming()
+{
+    return 0;
+}
+
+int Taquin::Manhattan()
+{
+    int manhattan = 0;
+    int val = 1, currCol = 0, currRaw = 0;
+    for (int i = 0; i < _k * _k; i++)
     {
-        for (int j = 0; j < _k; j++)
+        currRaw = i / _k;
+        currCol = i - (_k * currRaw);
+
+        if (_board[i] != val % (_k * _k))
         {
-            if (_taquin[i][j] == 0)
+            if (_board[i] != 0)
             {
-                _posZero[0] = i;
-                _posZero[1] = j;
-                break;
+                int goalRaw = (_board[i] - 1) / _k;
+                int goalCol = (_board[i] - 1) - _k * goalRaw;
+
+                manhattan += abs(goalCol - currCol) + abs(goalRaw - currRaw);
+            }
+            else
+            {
+                int goalRaw = 2;
+                int goalCol = 2;
+
+                manhattan += abs(goalCol - currCol) + abs(goalRaw - currRaw);
             }
         }
+
+        val++;
     }
+    return manhattan;
 }
 
-void Taquin::swap(std::vector<std::vector<int>> &_gameState, int i_dex, int j_dex, int i_dex_sd, int j_dex_sd)
+void Taquin::print()
 {
-    int tmp = _gameState[i_dex][j_dex];
-    _gameState[i_dex][j_dex] = _gameState[i_dex_sd][j_dex_sd];
-    _gameState[i_dex_sd][j_dex_sd] = tmp;
-}
-
-void Taquin::generateCibleTaquin()
-{
-    int val = 1;
-    for (int i = 0; i < _k; i++)
-    {
-        std::vector<int> tmp;
-        for (int j = 0; j < _k; j++)
-            tmp.push_back(val++);
-        _taquin.push_back(tmp);
-    }
-    _taquin[_k - 1].pop_back();
-    _taquin[_k - 1].push_back(0);
-}
-
-void Taquin::generateInitialTaquin()
-{
-    srand((unsigned)time(nullptr));
-
+    int index = 0;
     for (int i = 0; i < _k; i++)
     {
         for (int j = 0; j < _k; j++)
-        {
-            int i_dex_sd = i + rand() % (_k - i);
-            int j_dex_sd = j + rand() % (_k - j);
-            swap(_taquin, i, j, i_dex_sd, j_dex_sd);
-        }
-    }
-
-    findZero();
-}
-
-int Taquin::generateNextStates(std::vector<std::vector<int>> _gameState)
-{
-    // _statesTaquin.push_back(_gameState);
-
-    int newState = 0;
-
-    findZero();
-
-    if (0 <= (_posZero[0] - 1))
-    {
-        _statesTaquin.push_back(_gameState);
-        swap(_statesTaquin[newState++], _posZero[0], _posZero[1], _posZero[0] - 1, _posZero[1]);
-    }
-
-    if ((_posZero[0] + 1) < _k)
-    {
-        _statesTaquin.push_back(_gameState);
-        swap(_statesTaquin[newState++], _posZero[0], _posZero[1], _posZero[0] + 1, _posZero[1]);
-    }
-
-    if (0 <= (_posZero[1] - 1))
-    {
-        _statesTaquin.push_back(_gameState);
-        swap(_statesTaquin[newState++], _posZero[0], _posZero[1], _posZero[0], _posZero[1] - 1);
-    }
-
-    if ((_posZero[1] + 1) < _k)
-    {
-        _statesTaquin.push_back(_gameState);
-        swap(_statesTaquin[newState++], _posZero[0], _posZero[1], _posZero[0], _posZero[1] + 1);
-    }
-
-    return newState;
-}
-
-bool Taquin::isFinalState(std::vector<std::vector<int>> &_gameState)
-{
-    int val = 1;
-    for (int i = 0; i < _k; i++)
-    {
-        for (int j = 0; j < _k; j++)
-        {
-            if (_gameState[i][j] == 0 && i == _k - 1 && j == _k - 1)
-                return true;
-            else if (_gameState[i][j] == val)
-                val++;
-            else
-                return false;
-        }
-    }
-    return true;
-}
-
-// Public Methods
-
-void Taquin::AfficheCurrentState()
-{
-    for (int i = 0; i < _k; i++)
-    {
-        std::cout << "\t";
-        for (int j = 0; j < _k; j++)
-        {
-            std::cout << _taquin[i][j] << " | ";
-        }
+            std::cout << _board[index++] << " ";
         std::cout << std::endl;
     }
-
-    std::cout << std::endl;
-}
-
-bool Taquin::ResolutionHasard()
-{
-    std::cout << "************************" << std::endl;
-    std::cout << "**Resolution au Hasard**" << std::endl;
-    std::cout << "************************" << std::endl;
-    std::cout << std::endl;
-
-    std::vector<std::vector<int>> taquin_src = _taquin;
-
-    int num_states;
-    srand((unsigned)time(nullptr));
-
-    while (!isFinalState(_taquin))
-    {
-        num_states = generateNextStates(_taquin);
-
-        // std::cout << "Etat courant: " << std::endl;
-        // AfficheCurrentState();
-
-        int index = rand() % num_states;
-        while (taquin_src == _statesTaquin[index])
-            index = rand() % num_states;
-
-        for (int i = 0; i < num_states; i++)
-        {
-            if (isFinalState(_statesTaquin[i]))
-            {
-                _taquin = _statesTaquin[i];
-                std::cout << "Resolved: " << std::endl;
-                AfficheCurrentState();
-                return isFinalState(_taquin);
-            }
-        }
-
-        taquin_src = _taquin;
-
-        _taquin = _statesTaquin[index];
-
-        // std::cout << "\t Etat trouvé !" << std::endl;
-        // AfficheCurrentState();
-
-        _statesTaquin.clear();
-    }
-
-    return true;
-}
-
-int operator==(std::vector<std::vector<int>> _taquin1, std::vector<std::vector<int>> _taquin2)
-{
-    for (size_t i = 0; i < _taquin1.size(); i++)
-    {
-        for (size_t j = 0; j < _taquin1.size(); j++)
-        {
-            if (_taquin1[i][j] != _taquin2[i][j])
-                return 0;
-        }
-    }
-    return 1;
 }

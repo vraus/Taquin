@@ -6,55 +6,50 @@
 #include <iostream>
 #include <algorithm>
 
-// TODO: Completly refactor all the TAQUIN CLASS.
-//  Use the [8-puzzle instruction](https://www.cs.princeton.edu/courses/archive/spring18/cos226/assignments/8puzzle/index.html)
-//  Of the princeton university as start point
-
 class Taquin
 {
 public:
-    /** @brief `constructor` No default constructor, construct the Taquin when you know its size.
-     * @param k `int` The size of an k*k Taquin.
+    /**
+     * @brief Constructor called when it's the initial board of the game.
+     * @param k The size of a k * k board
      */
-    Taquin(int k);
+    Taquin(int k); // TODO: modify shuffle
 
-    ~Taquin();
+    /**
+     * @brief Constructor called when creating another state of the game, during resolution
+     * @param board The vector containing the new state
+     * @param mooves The number of mooves to reach this new state ( = 1 + mooves of the source state)
+     * @param k The size of a k * k board
+     */
+    Taquin(std::vector<int> board, int mooves, int k);
 
-    /** @brief `void` Displays the current game state. */
-    void AfficheCurrentState();
+    ~Taquin() {} // Default Shreder
 
-    bool ResolutionHasard();
+    /**
+     * @brief This function calculate the Hamming Distance between this state and the goal board.
+     * The Hamming Distance is the number of tiles in the wrong position.
+     * @returns The Hamming distance
+     */
+    int Hamming(); // TODO: Hamming
 
-    friend int operator==(std::vector<std::vector<int>> _taquin1, std::vector<std::vector<int>> _taquin2);
+    /**
+     * @brief This function calculate the Manhattan Distance between this state and the goal board
+     * The Manhattan Distance is
+     * @returns The Manhattan distance
+     */
+    int Manhattan();
+
+    void print();
 
 private:
-    int _k;
-    int _posZero[2];
-    std::vector<std::vector<int>> _taquin;
-    std::vector<std::vector<std::vector<int>>> _statesTaquin;
-
-    /** @brief `void` Generates the shuffled Taquin game. State 1 of the game.*/
-    void generateInitialTaquin();
-
-    /** @brief `void` Swaps two values in the vector _taquin.
-     * @param _gameState current game state
-     * @param i_dex Index i of the first value
-     * @param j_dex Index j of the first value
-     * @param i_dex_sd Index i of the second value
-     * @param j_dex_sd Index j of the seconde value
-     */
-    void swap(std::vector<std::vector<int>> &_gameState, int i_dex, int j_dex, int i_dex_sd, int j_dex_sd);
-
-    /** @brief `void` Generates the ordered Taquin */
-    void generateCibleTaquin();
-
-    /** @brief `void` Function to generates all next states to a current given state */
-    int generateNextStates(std::vector<std::vector<int>> _gameState);
-
-    /** @brief `void` find the position of zero in the Taquin. */
-    void findZero();
-
-    bool isFinalState(std::vector<std::vector<int>> &_gameState);
+    int _k;                  // Size of the board is k²
+    std::vector<int> _board; // Values of the Taquin
+    int _mooves;             // Number of mooves for this state
+    int _hamming;            // Hamming distance of this state
+    int _manhattan;          // Manhattan distance of this state
+    int _Hpriority;          // Hpriority = _mooves + _hamming;
+    int _Mpriority;          // Mpriority = _mooves + _manhattan;
+    Taquin **_neighbourgs;   // All neighbourgs states of this state
 };
 
 #endif

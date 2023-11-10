@@ -19,19 +19,18 @@ int main()
 
     Taquin game(k);
 
-    int choice = 1;
+    int choice = 0;
 
     do
     {
         std::cout << "Choose you resolution method: " << std::endl;
-        std::cout << " * (1) : Random Resolve." << std::endl;
+        std::cout << " * (1) : A* Resolution" << std::endl;
         std::cout << " * (0) : Exit." << std::endl;
         std::cin >> choice;
         switch (choice)
         {
         case 1:
-            if (game.ResolutionHasard())
-                std::cout << "Taquin résolu!! " << std::endl;
+            std::cout << "\nManhattan: " << game.Manhattan() << std::endl;
             break;
         case 0:
             break;

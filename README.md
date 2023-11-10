@@ -6,25 +6,27 @@
 
 ## Table of Content
 
-1. [Introduction](#solving-algorithms-project-applied-to-taquin-game)
+1. [Introduction](#solving-algorithms-project-applied-to-taquin-game-up)
 
-2. [Definitons](#theoritical-approach-of-the-research-algorithms)
+2. [Definitons](#theoritical-approach-of-the-research-algorithms-up)
 
     1. [Informed Research Algorithms](#informed-research-algorithms)
 
     2. [Uninformed Research Algorithms](#uninformed-research-algorithms)
 
-3. [How To Use](#how-to-use)
+3. [How To Use](#how-to-use-up)
 
     1. [V-0.1.021123](#v-01021123)
 
-## Solving Algorithms Project applied to Taquin Game
+4. [Code](#code-up)
+
+## Solving Algorithms Project applied to Taquin Game ***([up](#taquin-game---m1-2ia))***
 
 According to Wikipedia, the taquin is a solitaire game in the form of a checkerboard, created around 1870 in the United States. Its mathematical theory was published by the American Journal of Mathematics Pure and Applied in 1879. In 1891, its invention was claimed by Sam Loyd, at a time when the game was experiencing considerable popularity in both the United States and Europe. The taquin is composed of 15 numbered small squares that slide in a frame designed for 16. The objective is to rearrange the 15 squares from any initial configuration into the correct order.
 
 The principle has been extended to various other games. Most of them use rectangular blocks instead of squares, but the goal is always to arrange the blocks in a specific way with the fewest possible moves. The Rubik's Cube is now considered one of the "descendants" of the taquin.
 
-## Theoritical Approach of the research Algorithms
+## Theoritical Approach of the research Algorithms ***([up](#taquin-game---m1-2ia))***
 
 > To solve this problem, I will be implementing several research strategies, both informed and uninformed, to further explore the taquin game and its variations.
 
@@ -58,7 +60,7 @@ Uninformed research algorithms, also known as blind search algorithms, are searc
 
 + **Uniform Cost Search:** A search algorithm that explores the path with the lowest cumulative cost.
 
-## How To Use
+## How To Use ***([up](#taquin-game---m1-2ia))***
 
 > How to read the versions name: `V-X.Y.Z`
 >
@@ -75,3 +77,5 @@ make && ./main
 ```
 
 and then follow the instructions in the terminal.
+
+## Code ***([up](#taquin-game---m1-2ia))***
