@@ -5,6 +5,7 @@
 #include <random>
 #include <iostream>
 #include <algorithm>
+#include <chrono>
 
 class Taquin
 {
@@ -13,7 +14,7 @@ public:
      * @brief Constructor called when it's the initial board of the game.
      * @param k The size of a k * k board
      */
-    Taquin(int k); // TODO: modify shuffle
+    Taquin(int k);
 
     /**
      * @brief Constructor called when creating another state of the game, during resolution
@@ -30,7 +31,7 @@ public:
      * The Hamming Distance is the number of tiles in the wrong position.
      * @returns The Hamming distance
      */
-    int Hamming(); // TODO: Hamming
+    int Hamming();
 
     /**
      * @brief This function calculate the Manhattan Distance between this state and the goal board

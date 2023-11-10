@@ -11,7 +11,9 @@ Taquin::Taquin(int k)
     _board.pop_back();
     _board.push_back(0);
 
-    std::random_shuffle(_board.begin(), _board.end());
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine e(seed);
+    std::shuffle(_board.begin(), _board.end(), e);
 
     _mooves = 0;
 
@@ -28,7 +30,17 @@ Taquin::Taquin(std::vector<int> board, int mooves, int k)
 
 int Taquin::Hamming()
 {
-    return 0;
+    int hamming = 0;
+    int val = 1;
+
+    for (int i = 0; i < _k * _k; i++)
+    {
+        if (_board[i] != val % (_k * _k))
+            hamming += 1;
+        val++;
+    }
+
+    return hamming;
 }
 
 int Taquin::Manhattan()

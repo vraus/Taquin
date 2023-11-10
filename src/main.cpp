@@ -31,6 +31,7 @@ int main()
         {
         case 1:
             std::cout << "\nManhattan: " << game.Manhattan() << std::endl;
+            std::cout << "\nHamming: " << game.Hamming() << std::endl;
             break;
         case 0:
             break;
