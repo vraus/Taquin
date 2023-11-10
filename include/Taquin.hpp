@@ -22,7 +22,7 @@ public:
      * @param mooves The number of mooves to reach this new state ( = 1 + mooves of the source state)
      * @param k The size of a k * k board
      */
-    Taquin(std::vector<int> board, int mooves, int k);
+    Taquin(std::vector<int> board, int mooves, int k, Taquin *source);
 
     ~Taquin() {} // Default Shreder
 
@@ -40,17 +40,41 @@ public:
      */
     int Manhattan();
 
-    void print();
+    void Print();
+
+    std::vector<Taquin> GenerateNextStates();
+
+    int GetHpriority() { return _Hpriority; }
+
+    int GetMpriority() { return _Mpriority; }
+
+    int GetK() { return _k; }
+
+    int GetSize() { return _size; }
+
+    size_t GetNeighbourgsSize() { return _neighbourgs.size(); }
+
+    Taquin GetNeighbourgs(int index) { return *_neighbourgs[index]; }
+
+    void AddNeighbourg(Taquin *neighbourgs) { _neighbourgs.push_back(neighbourgs); }
+
+    friend int operator==(Taquin t1, Taquin t2) { return t1._board == t2._board; }
+
+    Taquin GetSource() { return *_sourceBoard; }
+
+    bool IsSource() { return _sourceBoard == nullptr; }
 
 private:
-    int _k;                  // Size of the board is k²
-    std::vector<int> _board; // Values of the Taquin
-    int _mooves;             // Number of mooves for this state
-    int _hamming;            // Hamming distance of this state
-    int _manhattan;          // Manhattan distance of this state
-    int _Hpriority;          // Hpriority = _mooves + _hamming;
-    int _Mpriority;          // Mpriority = _mooves + _manhattan;
-    Taquin **_neighbourgs;   // All neighbourgs states of this state
+    int _k;                             // Size of the board is k²
+    int _size;                          // Size of the board; thus avoiding to calculate it in methods
+    std::vector<int> _board;            // Values of the Taquin
+    int _mooves;                        // Number of mooves for this state
+    int _hamming;                       // Hamming distance of this state
+    int _manhattan;                     // Manhattan distance of this state
+    int _Hpriority;                     // Hpriority = _mooves + _hamming;
+    int _Mpriority;                     // Mpriority = _mooves + _manhattan;
+    std::vector<Taquin *> _neighbourgs; // All neighbourgs states of this state
+    Taquin *_sourceBoard;               // Source board of this state
 };
 
 #endif

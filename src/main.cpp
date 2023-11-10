@@ -1,4 +1,4 @@
-#include "Taquin.hpp"
+#include "AStarSolver.hpp"
 
 #define handle_error(msg, status) \
     do                            \
@@ -17,7 +17,9 @@ int main()
     while (k == 0)
         std::cin >> k;
 
-    Taquin game(k);
+    Taquin *game = new Taquin(k);
+
+    AStarSolver aStarSolver;
 
     int choice = 0;
 
@@ -30,8 +32,7 @@ int main()
         switch (choice)
         {
         case 1:
-            std::cout << "\nManhattan: " << game.Manhattan() << std::endl;
-            std::cout << "\nHamming: " << game.Hamming() << std::endl;
+            aStarSolver.SettingSolver(*game);
             break;
         case 0:
             break;

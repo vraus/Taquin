@@ -3,9 +3,10 @@
 Taquin::Taquin(int k)
 {
     _k = k;
+    _size = _k * _k;
     int val = 1;
-    std::cout << "\nCreation of the initial board." << std::endl;
-    for (int i = 0; i < _k * _k; i++)
+    std::cout << "\nCreation of the initial board..." << std::endl;
+    for (int i = 0; i < _size; i++)
         _board.push_back(val++);
 
     _board.pop_back();
@@ -18,14 +19,28 @@ Taquin::Taquin(int k)
     _mooves = 0;
 
     std::cout << "\nState of the board: " << std::endl;
-    print();
+    Print();
+
+    _hamming = Hamming();
+    _Hpriority = _hamming;
+    _manhattan = Manhattan();
+    _Mpriority = _manhattan;
+
+    _sourceBoard = this;      // This is the initial board: it is it's own source
+    _neighbourgs = {nullptr}; // No neighbours for the initial board
 }
 
-Taquin::Taquin(std::vector<int> board, int mooves, int k)
+Taquin::Taquin(std::vector<int> board, int mooves, int k, Taquin *source)
 {
     _board = board;
     _mooves = mooves;
     _k = k;
+    _size = _k * _k;
+    _hamming = Hamming();
+    _Hpriority = _hamming + _mooves;
+    _manhattan = Manhattan();
+    _Mpriority = _manhattan + mooves;
+    _sourceBoard = source;
 }
 
 int Taquin::Hamming()
@@ -33,9 +48,9 @@ int Taquin::Hamming()
     int hamming = 0;
     int val = 1;
 
-    for (int i = 0; i < _k * _k; i++)
+    for (int i = 0; i < _size; i++)
     {
-        if (_board[i] != val % (_k * _k))
+        if (_board[i] != val % _size)
             hamming += 1;
         val++;
     }
@@ -47,12 +62,12 @@ int Taquin::Manhattan()
 {
     int manhattan = 0;
     int val = 1, currCol = 0, currRaw = 0;
-    for (int i = 0; i < _k * _k; i++)
+    for (int i = 0; i < _size; i++)
     {
         currRaw = i / _k;
         currCol = i - (_k * currRaw);
 
-        if (_board[i] != val % (_k * _k))
+        if (_board[i] != val % _size)
         {
             if (_board[i] != 0)
             {
@@ -75,7 +90,7 @@ int Taquin::Manhattan()
     return manhattan;
 }
 
-void Taquin::print()
+void Taquin::Print()
 {
     int index = 0;
     for (int i = 0; i < _k; i++)
@@ -84,4 +99,83 @@ void Taquin::print()
             std::cout << _board[index++] << " ";
         std::cout << std::endl;
     }
+
+    std::cout << "mooves: " << _mooves << std::endl;
+}
+
+std::vector<Taquin> Taquin::GenerateNextStates()
+{
+
+    int index_Zero;
+
+    for (int i = 0; i < _size; i++)
+    {
+        if (_board[i] == 0)
+        {
+            index_Zero = i;
+            break;
+        }
+    }
+
+    std::vector<Taquin> tmpHerited;
+    std::vector<int> tmpBoard;
+
+    if (index_Zero - _k >= 0)
+    {
+        tmpBoard = _board;
+        tmpBoard[index_Zero] = tmpBoard[index_Zero - _k];
+        tmpBoard[index_Zero - _k] = 0;
+        if (tmpBoard != this->_sourceBoard->_board)
+        {
+            Taquin newState(tmpBoard, ++_mooves, _k, this);
+            tmpHerited.push_back(newState);
+        }
+    }
+    if (index_Zero + _k < _size)
+    {
+        tmpBoard = _board;
+        tmpBoard[index_Zero] = tmpBoard[index_Zero + _k];
+        tmpBoard[index_Zero + _k] = 0;
+        if (tmpBoard != this->_sourceBoard->_board)
+        {
+            Taquin newState(tmpBoard, ++_mooves, _k, this);
+            tmpHerited.push_back(newState);
+        }
+    }
+    if ((index_Zero - 1 >= 0) && (index_Zero % 3 != 0))
+    {
+        tmpBoard = _board;
+        tmpBoard[index_Zero] = tmpBoard[index_Zero - 1];
+        tmpBoard[index_Zero - 1] = 0;
+        if (tmpBoard != this->_sourceBoard->_board)
+        {
+            Taquin newState(tmpBoard, ++_mooves, _k, this);
+            tmpHerited.push_back(newState);
+        }
+    }
+    if ((index_Zero + 1 < _size) && (index_Zero % 3 != 0))
+    {
+        tmpBoard = _board;
+        tmpBoard[index_Zero] = tmpBoard[index_Zero + 1];
+        tmpBoard[index_Zero + 1] = 0;
+        if (tmpBoard != this->_sourceBoard->_board)
+        {
+            Taquin newState(tmpBoard, ++_mooves, _k, this);
+            tmpHerited.push_back(newState);
+        }
+    }
+
+    // BUG: This make a SEGMENTATION FAULT !!
+    for (size_t i = 0; i < tmpHerited.size(); i++)
+    {
+        for (size_t j = 0; j < tmpHerited.size(); j++)
+        {
+            if (i != j)
+            {
+                tmpHerited[i].AddNeighbourg(&tmpHerited[j]);
+            }
+        }
+    }
+
+    return tmpHerited;
 }
