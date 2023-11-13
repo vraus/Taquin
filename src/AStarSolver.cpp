@@ -9,14 +9,14 @@ int AStarSolver::Solution()
 
     Taquin curr = pq[0];
 
+    int resolved = 0;
+
     time(&start);
     std::ios_base::sync_with_stdio(false);
     time(&end);
 
-    while (double(end - start) <= (curr.GetSize()))
+    while (resolved == 0)
     {
-
-        time(&end);
         int minPQ = pq[0].GetMpriority();
         int indexMinPQ = 0;
         // Recherche du min prio dans la PQ

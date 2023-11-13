@@ -46,6 +46,7 @@ public:
 
     int GetHpriority() { return _Hpriority; }
 
+    /** @returns the Manhattan priority of this state */
     int GetMpriority() { return _Mpriority; }
 
     int GetK() { return _k; }
