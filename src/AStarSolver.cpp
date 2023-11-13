@@ -36,9 +36,9 @@ int AStarSolver::Solution()
         pq.erase(pq.begin() + indexMinPQ);
         for (size_t i = 0; i < curr.GetNeighbourgsSize(); i++)
         {
-            Taquin neigCUrr = curr.GetNeighbourgs(i);
+            Taquin neigCurr = curr.GetNeighbourgs(i);
             std::cout << "here! " << start << " " << end << std::endl;
-            std::vector<Taquin> newStates = neigCUrr.GenerateNextStates();
+            std::vector<Taquin> newStates = neigCurr.GenerateNextStates();
             for (size_t i = 0; i < newStates.size(); i++)
                 pq.push_back(newStates[i]);
         }
