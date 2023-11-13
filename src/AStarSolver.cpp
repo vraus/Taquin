@@ -31,26 +31,34 @@ int AStarSolver::Solution()
 
         // Supprime de la PQ le board qu'on va explorer
         curr = pq[indexMinPQ];
-        std::cout << "Etape " << _mooves << std::endl;
 
         pq.erase(pq.begin() + indexMinPQ);
-        for (size_t i = 0; i < curr.GetNeighbourgsSize(); i++)
+        curr.Print();
+        if (curr.GetNeighbourgsSize())
         {
-            Taquin neigCurr = curr.GetNeighbourgs(i);
-            std::cout << "here! " << start << " " << end << std::endl;
-            std::vector<Taquin> newStates = neigCurr.GenerateNextStates();
-            for (size_t i = 0; i < newStates.size(); i++)
-                pq.push_back(newStates[i]);
+            for (size_t i = 0; i < curr.GetNeighbourgsSize(); i++)
+            {
+                Taquin neigCurr = curr.GetNeighbourgs(i);
+                std::vector<Taquin> newStates = neigCurr.GenerateNextStates();
+                for (size_t i = 0; i < newStates.size(); i++)
+                    pq.push_back(newStates[i]);
+            }
+        }
+        else
+        {
+            curr.GenerateNextStates();
+            std::cout << "Now neighbourgs nb: " << curr.GetNeighbourgsSize() << std::endl;
         }
 
         _mooves++;
+        resolved++;
     }
 
-    std::cout << "End on state:" << std::endl;
+    /*std::cout << "End on state:" << std::endl;
     curr.Print();
 
     std::cout << "Started with: " << std::endl;
-    _solution[0].Print();
+    _solution[0].Print();*/
 
     return _mooves;
 }

@@ -26,8 +26,7 @@ Taquin::Taquin(int k)
     _manhattan = Manhattan();
     _Mpriority = _manhattan;
 
-    _sourceBoard = this;      // This is the initial board: it is it's own source
-    _neighbourgs = {nullptr}; // No neighbours for the initial board
+    _sourceBoard = this; // This is the initial board: it is it's own source
 }
 
 Taquin::Taquin(std::vector<int> board, int mooves, int k, Taquin *source)
@@ -170,10 +169,7 @@ std::vector<Taquin> Taquin::GenerateNextStates()
     {
         for (size_t j = 0; j < tmpHerited.size(); j++)
         {
-            if (i != j)
-            {
-                tmpHerited[i].AddNeighbourg(&tmpHerited[j]);
-            }
+            tmpHerited[i].AddNeighbourg(tmpHerited[j]);
         }
     }
 
