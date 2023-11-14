@@ -61,8 +61,10 @@ public:
 
     friend int operator==(Taquin t1, Taquin t2) { return t1._board == t2._board; }
 
+    /** @returns A pointer to the source of the current state. */
     Taquin GetSource() { return *_sourceBoard; }
 
+    /** @returns True if the current state is the source state. */
     bool IsSource() { return _sourceBoard == nullptr; }
 
     bool IsFinalState() { return this->_board == _finalState; }

@@ -28,7 +28,7 @@ Taquin::Taquin(int k)
     _manhattan = Manhattan();
     _Mpriority = _manhattan;
 
-    _sourceBoard = this; // This is the initial board: it is it's own source
+    _sourceBoard = nullptr; // This is the initial board: it is it's own source
 }
 
 Taquin::Taquin(std::vector<int> board, int mooves, int k, Taquin *source)

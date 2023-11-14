@@ -6,6 +6,7 @@ int AStarSolver::Solution()
     time_t start, end;
     std::vector<Taquin> pq;
     pq.push_back(_solution[0]);
+    _iterations = 0;
 
     Taquin curr = pq[0];
 
@@ -13,22 +14,21 @@ int AStarSolver::Solution()
     std::ios_base::sync_with_stdio(false);
     time(&end);
 
-    for (auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(curr.GetSize());
-         std::chrono::system_clock::now() < runUntil;)
+    // for (auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(curr.GetSize());
+    //      std::chrono::system_clock::now() < runUntil;)
+    for (;;)
     {
         int minPQ = pq[0].GetMpriority();
         int indexMinPQ = 0;
         // Search for min in the PQ
-        for (size_t i = 1; i < pq.size(); i++)
+        for (size_t i = 0; i < pq.size(); i++)
         {
-            if (pq[i].GetMpriority() < minPQ)
+            if (pq[i].GetMpriority() <= minPQ)
             {
                 minPQ = pq[i].GetMpriority();
                 indexMinPQ = i;
             }
         }
-
-        // Delete the minimum we are exploring
         curr = pq[indexMinPQ];
         pq.erase(pq.begin() + indexMinPQ);
 
@@ -48,16 +48,15 @@ int AStarSolver::Solution()
             else // The non final state is added and the game continue
                 pq.push_back(curr.GetNeighbourgs(i));
         }
-        _mooves++;
-
-        std::cout << "mooves: " << _mooves << std::endl;
+        _iterations++;
     }
 
     std::cout << "End on state:" << std::endl;
     curr.Print();
 
-    std::cout << "Started with: " << std::endl;
+    std::cout
+        << "Started with: " << std::endl;
     _solution[0].Print();
 
-    return _mooves;
+    return _iterations;
 }

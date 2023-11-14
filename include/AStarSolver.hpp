@@ -11,7 +11,7 @@ public:
     void SettingSolver(Taquin zeroBoard)
     {
         _solution.push_back(zeroBoard);
-        _mooves = 0;
+        _iterations = 0;
 
         _solution[0].Print();
 
@@ -23,7 +23,7 @@ public:
     int Solution();
 
 private:
-    int _mooves;
+    int _iterations;
     std::vector<Taquin> _solution;
 };
 
