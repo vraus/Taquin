@@ -10,29 +10,33 @@ bool DFS::IsMarked(Taquin state)
     return false;
 }
 
-int DFS::Solution(Taquin state)
+int DFS::Explore(Taquin state)
 {
-    if (state.IsFinalState())
+    _marked.push_back(state);
+    state.Print();
+    for (size_t i = 0; i < state.GetNeighbourgsSize(); i++)
     {
-        std::cout << "Solution trouvée: " << std::endl;
-        state.Print();
-        return 1;
-    }
-    else
-    {
-        if (!IsMarked(state))
+        if (!IsMarked(state.GetNeighbourgs(i)))
         {
-            std::cout << "Solution ? " << state.IsFinalState() << std::endl;
-            std::cout << "Exploration d'un nouvel Etat: " << std::endl;
-            state.Print();
-            _marked.push_back(state);
+            Explore(state.GetNeighbourgs(i));
             state.GenerateNextStates();
-            for (size_t i = 0; i < state.GetNeighbourgsSize(); i++)
-            {
-                Solution(state.GetNeighbourgs(i));
-                break;
-            }
         }
     }
+
+    return state.IsFinalState();
+}
+
+// BUG: On this Version, DFS doesn't work.
+//  To generate Next States I have to store them !!!
+int DFS::Solution(Taquin state)
+{
+    _marked.push_back(state);
+    state.GenerateNextStates();
+    for (size_t i = 0; i < state.GetNeighbourgsSize(); i++)
+    {
+        if (!IsMarked(state.GetNeighbourgs(i)))
+            return Explore(state.GetNeighbourgs(i));
+    }
+
     return 0;
 }

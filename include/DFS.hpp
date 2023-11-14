@@ -12,6 +12,8 @@ public:
 
     int Solution(Taquin state);
 
+    int Explore(Taquin state);
+
     bool IsMarked(Taquin state);
 
 private:

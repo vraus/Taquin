@@ -197,7 +197,6 @@ int operator==(Taquin t1, Taquin t2)
     {
         if (t1._board[i] != t2._board[i])
         {
-            std::cout << "FAUX" << std::endl;
             return false;
         }
     }
