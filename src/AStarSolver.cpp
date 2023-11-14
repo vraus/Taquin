@@ -9,17 +9,16 @@ int AStarSolver::Solution()
 
     Taquin curr = pq[0];
 
-    int resolved = 0;
-
     time(&start);
     std::ios_base::sync_with_stdio(false);
     time(&end);
 
-    while (resolved == 0)
+    for (auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(curr.GetSize());
+         std::chrono::system_clock::now() < runUntil;)
     {
         int minPQ = pq[0].GetMpriority();
         int indexMinPQ = 0;
-        // Recherche du min prio dans la PQ
+        // Search for min in the PQ
         for (size_t i = 1; i < pq.size(); i++)
         {
             if (pq[i].GetMpriority() < minPQ)
@@ -29,36 +28,36 @@ int AStarSolver::Solution()
             }
         }
 
-        // Supprime de la PQ le board qu'on va explorer
+        // Delete the minimum we are exploring
         curr = pq[indexMinPQ];
-
         pq.erase(pq.begin() + indexMinPQ);
-        curr.Print();
-        if (curr.GetNeighbourgsSize())
-        {
-            for (size_t i = 0; i < curr.GetNeighbourgsSize(); i++)
-            {
-                Taquin neigCurr = curr.GetNeighbourgs(i);
-                std::vector<Taquin> newStates = neigCurr.GenerateNextStates();
-                for (size_t i = 0; i < newStates.size(); i++)
-                    pq.push_back(newStates[i]);
-            }
-        }
-        else
-        {
-            curr.GenerateNextStates();
-            std::cout << "Now neighbourgs nb: " << curr.GetNeighbourgsSize() << std::endl;
-        }
 
+        // Creating all possible states
+        curr.GenerateNextStates();
+
+        // Add them to the Priority Queue
+        for (size_t i = 0; i < curr.GetNeighbourgsSize(); i++)
+        {
+            // Check if we found a final state
+            if (curr.IsFinalState())
+            {
+
+                std::cout << "Etat Resolu! " << std::endl;
+                break;
+            }
+            else // The non final state is added and the game continue
+                pq.push_back(curr.GetNeighbourgs(i));
+        }
         _mooves++;
-        resolved++;
+
+        std::cout << "mooves: " << _mooves << std::endl;
     }
 
-    /*std::cout << "End on state:" << std::endl;
+    std::cout << "End on state:" << std::endl;
     curr.Print();
 
     std::cout << "Started with: " << std::endl;
-    _solution[0].Print();*/
+    _solution[0].Print();
 
     return _mooves;
 }

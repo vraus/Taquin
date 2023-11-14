@@ -65,10 +65,13 @@ public:
 
     bool IsSource() { return _sourceBoard == nullptr; }
 
+    bool IsFinalState() { return this->_board == _finalState; }
+
 private:
     int _k;                           // Size of the board is k²
     int _size;                        // Size of the board; thus avoiding to calculate it in methods
     std::vector<int> _board;          // Values of the Taquin
+    std::vector<int> _finalState;     // Final ordered state of a Taquin game
     int _mooves;                      // Number of mooves for this state
     int _hamming;                     // Hamming distance of this state
     int _manhattan;                   // Manhattan distance of this state

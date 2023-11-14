@@ -12,6 +12,8 @@ Taquin::Taquin(int k)
     _board.pop_back();
     _board.push_back(0);
 
+    _finalState = _board;
+
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine e(seed);
     std::shuffle(_board.begin(), _board.end(), e);
@@ -106,6 +108,7 @@ std::vector<Taquin> Taquin::GenerateNextStates()
 {
 
     int index_Zero;
+    int mooves = _mooves + 1;
 
     for (int i = 0; i < _size; i++)
     {
@@ -124,21 +127,23 @@ std::vector<Taquin> Taquin::GenerateNextStates()
         tmpBoard = _board;
         tmpBoard[index_Zero] = tmpBoard[index_Zero - _k];
         tmpBoard[index_Zero - _k] = 0;
-        if (tmpBoard != this->_sourceBoard->_board)
+        if (this->_sourceBoard == NULL || tmpBoard != this->_sourceBoard->_board)
         {
-            Taquin newState(tmpBoard, ++_mooves, _k, this);
+            Taquin newState(tmpBoard, mooves, _k, this);
             tmpHerited.push_back(newState);
+            this->AddNeighbourg(newState);
         }
     }
-    if (index_Zero + _k < _size)
+    if (index_Zero + _k <= _size - 1)
     {
         tmpBoard = _board;
         tmpBoard[index_Zero] = tmpBoard[index_Zero + _k];
         tmpBoard[index_Zero + _k] = 0;
-        if (tmpBoard != this->_sourceBoard->_board)
+        if (this->_sourceBoard == NULL || tmpBoard != this->_sourceBoard->_board)
         {
-            Taquin newState(tmpBoard, ++_mooves, _k, this);
+            Taquin newState(tmpBoard, mooves, _k, this);
             tmpHerited.push_back(newState);
+            this->AddNeighbourg(newState);
         }
     }
     if ((index_Zero - 1 >= 0) && (index_Zero % 3 != 0))
@@ -146,25 +151,26 @@ std::vector<Taquin> Taquin::GenerateNextStates()
         tmpBoard = _board;
         tmpBoard[index_Zero] = tmpBoard[index_Zero - 1];
         tmpBoard[index_Zero - 1] = 0;
-        if (tmpBoard != this->_sourceBoard->_board)
+        if (this->_sourceBoard == NULL || tmpBoard != this->_sourceBoard->_board)
         {
-            Taquin newState(tmpBoard, ++_mooves, _k, this);
+            Taquin newState(tmpBoard, mooves, _k, this);
             tmpHerited.push_back(newState);
+            this->AddNeighbourg(newState);
         }
     }
-    if ((index_Zero + 1 < _size) && (index_Zero % 3 != 0))
+    if (((index_Zero + 1 < _size) && ((index_Zero + 1) % 3 != 0)) || index_Zero == 0)
     {
         tmpBoard = _board;
         tmpBoard[index_Zero] = tmpBoard[index_Zero + 1];
         tmpBoard[index_Zero + 1] = 0;
-        if (tmpBoard != this->_sourceBoard->_board)
+        if (this->_sourceBoard == NULL || tmpBoard != this->_sourceBoard->_board)
         {
             Taquin newState(tmpBoard, ++_mooves, _k, this);
             tmpHerited.push_back(newState);
+            this->AddNeighbourg(newState);
         }
     }
 
-    // BUG: This make a SEGMENTATION FAULT !!
     for (size_t i = 0; i < tmpHerited.size(); i++)
     {
         for (size_t j = 0; j < tmpHerited.size(); j++)
