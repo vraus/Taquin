@@ -1,4 +1,5 @@
 #include "AStarSolver.hpp"
+#include "DFS.hpp"
 
 #define handle_error(msg, status) \
     do                            \
@@ -20,19 +21,24 @@ int main()
     Taquin *game = new Taquin(k);
 
     AStarSolver aStarSolver;
+    DFS dfsSolver;
 
     int choice = 0;
 
     do
     {
         std::cout << "Choose you resolution method: " << std::endl;
-        std::cout << " * (1) : A* Resolution" << std::endl;
+        std::cout << " * (1) : A* Resolution." << std::endl;
+        std::cout << " * (2) : DFS Resolution." << std::endl;
         std::cout << " * (0) : Exit." << std::endl;
         std::cin >> choice;
         switch (choice)
         {
         case 1:
             aStarSolver.SettingSolver(*game);
+            break;
+        case 2:
+            dfsSolver.Solution(*game);
             break;
         case 0:
             break;

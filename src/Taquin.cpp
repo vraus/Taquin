@@ -29,6 +29,15 @@ Taquin::Taquin(int k)
     _Mpriority = _manhattan;
 
     _sourceBoard = nullptr; // This is the initial board: it is it's own source
+
+    std::cout << "final state" << std::endl;
+    int index = 0;
+    for (int i = 0; i < _k; i++)
+    {
+        for (int j = 0; j < _k; j++)
+            std::cout << _finalState[index++] << " ";
+        std::cout << std::endl;
+    }
 }
 
 Taquin::Taquin(std::vector<int> board, int mooves, int k, Taquin *source)
@@ -101,7 +110,7 @@ void Taquin::Print()
         std::cout << std::endl;
     }
 
-    std::cout << "mooves: " << _mooves << std::endl;
+    // std::cout << "mooves: " << _mooves << std::endl;
 }
 
 std::vector<Taquin> Taquin::GenerateNextStates()
@@ -146,7 +155,7 @@ std::vector<Taquin> Taquin::GenerateNextStates()
             this->AddNeighbourg(newState);
         }
     }
-    if ((index_Zero - 1 >= 0) && (index_Zero % 3 != 0))
+    if ((index_Zero - 1 >= 0) && (index_Zero % _k != 0))
     {
         tmpBoard = _board;
         tmpBoard[index_Zero] = tmpBoard[index_Zero - 1];
@@ -158,7 +167,7 @@ std::vector<Taquin> Taquin::GenerateNextStates()
             this->AddNeighbourg(newState);
         }
     }
-    if (((index_Zero + 1 < _size) && ((index_Zero + 1) % 3 != 0)) || index_Zero == 0)
+    if (((index_Zero + 1 < _size) && ((index_Zero + 1) % _k != 0)) || index_Zero == 0)
     {
         tmpBoard = _board;
         tmpBoard[index_Zero] = tmpBoard[index_Zero + 1];
@@ -180,4 +189,17 @@ std::vector<Taquin> Taquin::GenerateNextStates()
     }
 
     return tmpHerited;
+}
+
+int operator==(Taquin t1, Taquin t2)
+{
+    for (int i = 0; i < t1.GetSize(); i++)
+    {
+        if (t1._board[i] != t2._board[i])
+        {
+            std::cout << "FAUX" << std::endl;
+            return false;
+        }
+    }
+    return true;
 }

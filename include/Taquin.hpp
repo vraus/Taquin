@@ -51,6 +51,7 @@ public:
 
     int GetK() { return _k; }
 
+    /** @returns The size of the board (_k * _k) */
     int GetSize() { return _size; }
 
     size_t GetNeighbourgsSize() { return _neighbourgs.size(); }
@@ -59,15 +60,19 @@ public:
 
     void AddNeighbourg(Taquin neighbourgs) { _neighbourgs.push_back(neighbourgs); }
 
-    friend int operator==(Taquin t1, Taquin t2) { return t1._board == t2._board; }
+    friend int operator==(Taquin t1, Taquin t2);
 
     /** @returns A pointer to the source of the current state. */
-    Taquin GetSource() { return *_sourceBoard; }
+    Taquin GetSource()
+    {
+        return *_sourceBoard;
+    }
 
     /** @returns True if the current state is the source state. */
     bool IsSource() { return _sourceBoard == nullptr; }
 
-    bool IsFinalState() { return this->_board == _finalState; }
+    /** @returns True if the current state is the final board */
+    bool IsFinalState() { return _board == _finalState; }
 
 private:
     int _k;                           // Size of the board is k²
