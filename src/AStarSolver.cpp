@@ -32,6 +32,15 @@ int AStarSolver::Solution()
         curr = pq[indexMinPQ];
         pq.erase(pq.begin() + indexMinPQ);
 
+        if (curr.IsFinalState())
+        {
+
+            std::cout << "Etat Resolu! " << std::endl;
+            break;
+        }
+
+        curr.Print();
+
         // Creating all possible states
         curr.GenerateNextStates();
 
