@@ -42,7 +42,7 @@ public:
 
     void Print();
 
-    std::vector<Taquin> GenerateNextStates();
+    void GenerateNextStates();
 
     int GetHpriority() { return _Hpriority; }
 
@@ -54,13 +54,17 @@ public:
     /** @returns The size of the board (_k * _k) */
     int GetSize() { return _size; }
 
-    size_t GetNeighbourgsSize() { return _neighbourgs.size(); }
+    size_t GetChildStatesSize() { return _childStates.size(); }
 
-    Taquin GetNeighbourgs(int index) { return _neighbourgs[index]; }
+    std::vector<int> GetBoard() { return _board; }
 
-    void AddNeighbourg(Taquin neighbourgs) { _neighbourgs.push_back(neighbourgs); }
+    Taquin GetChildStates(int index) { return _childStates[index]; }
+
+    void AddChildStates(Taquin child) { _childStates.push_back(child); }
 
     friend int operator==(Taquin t1, Taquin t2);
+
+    friend int operator==(std::vector<int> t1, std::vector<int> t2);
 
     /** @returns A pointer to the source of the current state. */
     Taquin GetSource()
@@ -92,7 +96,7 @@ private:
     int _manhattan;                   // Manhattan distance of this state
     int _Hpriority;                   // Hpriority = _mooves + _hamming;
     int _Mpriority;                   // Mpriority = _mooves + _manhattan;
-    std::vector<Taquin> _neighbourgs; // All neighbourgs states of this state
+    std::vector<Taquin> _childStates; // All neighbourgs states of this state
     Taquin *_sourceBoard;             // Source board of this state
 };
 

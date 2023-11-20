@@ -14,11 +14,11 @@ int DFS::Explore(Taquin state)
 {
     _marked.push_back(state);
     state.Print();
-    for (size_t i = 0; i < state.GetNeighbourgsSize(); i++)
+    for (size_t i = 0; i < state.GetChildStatesSize(); i++)
     {
-        if (!IsMarked(state.GetNeighbourgs(i)))
+        if (!IsMarked(state.GetChildStates(i)))
         {
-            Explore(state.GetNeighbourgs(i));
+            Explore(state.GetChildStates(i));
             state.GenerateNextStates();
         }
     }
@@ -32,10 +32,10 @@ int DFS::Solution(Taquin state)
 {
     _marked.push_back(state);
     state.GenerateNextStates();
-    for (size_t i = 0; i < state.GetNeighbourgsSize(); i++)
+    for (size_t i = 0; i < state.GetChildStatesSize(); i++)
     {
-        if (!IsMarked(state.GetNeighbourgs(i)))
-            return Explore(state.GetNeighbourgs(i));
+        if (!IsMarked(state.GetChildStates(i)))
+            return Explore(state.GetChildStates(i));
     }
 
     return 0;

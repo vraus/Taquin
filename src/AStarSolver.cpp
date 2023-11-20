@@ -31,6 +31,7 @@ int AStarSolver::Solution()
         }
         curr = pq[indexMinPQ];
         pq.erase(pq.begin() + indexMinPQ);
+        _marked.push_back(curr.GetBoard());
 
         if (curr.IsFinalState())
         {
@@ -45,7 +46,7 @@ int AStarSolver::Solution()
         curr.GenerateNextStates();
 
         // Add them to the Priority Queue
-        for (size_t i = 0; i < curr.GetNeighbourgsSize(); i++)
+        for (size_t i = 0; i < curr.GetChildStatesSize(); i++)
         {
             // Check if we found a final state
             if (curr.IsFinalState())
@@ -54,8 +55,11 @@ int AStarSolver::Solution()
                 std::cout << "Etat Resolu! " << std::endl;
                 break;
             }
-            else // The non final state is added and the game continue
-                pq.push_back(curr.GetNeighbourgs(i));
+            else if (!isMarked(curr.GetChildStates(i)))
+            {
+                _marked.push_back(curr.GetChildStates(i).GetBoard());
+                pq.push_back(curr.GetChildStates(i));
+            }
         }
         _iterations++;
     }
@@ -68,4 +72,15 @@ int AStarSolver::Solution()
     _solution[0].Print();
 
     return _iterations;
+}
+
+bool AStarSolver::isMarked(Taquin state)
+{
+    for (uint i = 0; i < _marked.size(); i++)
+    {
+        if (_marked[i] == state.GetBoard())
+            return true;
+    }
+
+    return false;
 }

@@ -49,6 +49,7 @@ int main()
             std::cout << "Not a correct val." << std::endl;
             break;
         }
+        break;
     } while (choice > 0);
 
     return 0;

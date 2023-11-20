@@ -20,11 +20,14 @@ public:
 
     ~AStarSolver() {}
 
+    bool isMarked(Taquin state);
+
     int Solution();
 
 private:
     int _iterations;
     std::vector<Taquin> _solution;
+    std::vector<std::vector<int>> _marked; // List of visited states
 };
 
 #endif

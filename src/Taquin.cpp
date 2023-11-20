@@ -114,7 +114,7 @@ void Taquin::Print()
     // std::cout << "mooves: " << _mooves << std::endl;
 }
 
-std::vector<Taquin> Taquin::GenerateNextStates()
+void Taquin::GenerateNextStates()
 {
 
     int index_Zero;
@@ -129,7 +129,6 @@ std::vector<Taquin> Taquin::GenerateNextStates()
         }
     }
 
-    std::vector<Taquin> tmpHerited;
     std::vector<int> tmpBoard;
 
     if (index_Zero - _k >= 0)
@@ -137,11 +136,10 @@ std::vector<Taquin> Taquin::GenerateNextStates()
         tmpBoard = _board;
         tmpBoard[index_Zero] = tmpBoard[index_Zero - _k];
         tmpBoard[index_Zero - _k] = 0;
-        if (this->_sourceBoard == NULL || tmpBoard != this->_sourceBoard->_board)
+        if (this->_sourceBoard == nullptr || tmpBoard != this->_sourceBoard->_board)
         {
             Taquin newState(tmpBoard, mooves, _k, this);
-            tmpHerited.push_back(newState);
-            this->AddNeighbourg(newState);
+            this->AddChildStates(newState);
         }
     }
     if (index_Zero + _k <= _size - 1)
@@ -149,11 +147,10 @@ std::vector<Taquin> Taquin::GenerateNextStates()
         tmpBoard = _board;
         tmpBoard[index_Zero] = tmpBoard[index_Zero + _k];
         tmpBoard[index_Zero + _k] = 0;
-        if (this->_sourceBoard == NULL || tmpBoard != this->_sourceBoard->_board)
+        if (this->_sourceBoard == nullptr || tmpBoard != this->_sourceBoard->_board)
         {
             Taquin newState(tmpBoard, mooves, _k, this);
-            tmpHerited.push_back(newState);
-            this->AddNeighbourg(newState);
+            this->AddChildStates(newState);
         }
     }
     if ((index_Zero - 1 >= 0) && (index_Zero % _k != 0))
@@ -161,11 +158,10 @@ std::vector<Taquin> Taquin::GenerateNextStates()
         tmpBoard = _board;
         tmpBoard[index_Zero] = tmpBoard[index_Zero - 1];
         tmpBoard[index_Zero - 1] = 0;
-        if (this->_sourceBoard == NULL || tmpBoard != this->_sourceBoard->_board)
+        if (this->_sourceBoard == nullptr || tmpBoard != this->_sourceBoard->_board)
         {
             Taquin newState(tmpBoard, mooves, _k, this);
-            tmpHerited.push_back(newState);
-            this->AddNeighbourg(newState);
+            this->AddChildStates(newState);
         }
     }
     if (((index_Zero + 1 < _size) && ((index_Zero + 1) % _k != 0)) || index_Zero == 0)
@@ -173,23 +169,12 @@ std::vector<Taquin> Taquin::GenerateNextStates()
         tmpBoard = _board;
         tmpBoard[index_Zero] = tmpBoard[index_Zero + 1];
         tmpBoard[index_Zero + 1] = 0;
-        if (this->_sourceBoard == NULL || tmpBoard != this->_sourceBoard->_board)
+        if (this->_sourceBoard == nullptr || tmpBoard != this->_sourceBoard->_board)
         {
             Taquin newState(tmpBoard, ++_mooves, _k, this);
-            tmpHerited.push_back(newState);
-            this->AddNeighbourg(newState);
+            this->AddChildStates(newState);
         }
     }
-
-    for (size_t i = 0; i < tmpHerited.size(); i++)
-    {
-        for (size_t j = 0; j < tmpHerited.size(); j++)
-        {
-            tmpHerited[i].AddNeighbourg(tmpHerited[j]);
-        }
-    }
-
-    return tmpHerited;
 }
 
 int operator==(Taquin t1, Taquin t2)
@@ -197,6 +182,18 @@ int operator==(Taquin t1, Taquin t2)
     for (int i = 0; i < t1.GetSize(); i++)
     {
         if (t1._board[i] != t2._board[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+int operator==(std::vector<int> t1, std::vector<int> t2)
+{
+    for (uint i = 0; i < t1.size(); i++)
+    {
+        if (t1[i] != t2[i])
         {
             return false;
         }
