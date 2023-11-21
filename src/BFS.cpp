@@ -2,23 +2,17 @@
 
 void BFS::Solution()
 {
-    time_t start, end;
-
-    time(&start);
-    std::ios_base::sync_with_stdio(false);
-    time(&end);
-
     Taquin curr = _list[0];
     do
     {
         std::cout << "\e[1;1H\e[2J";
-        if (_list[0].IsFinalState())
+        curr = _list[0];
+        if (curr.IsFinalState())
         {
             std::cout << "Final state !\n";
-            _list[0].Print();
+            curr.Print();
             break;
         }
-        curr = _list[0];
         _list.erase(_list.begin());
         curr.Print();
         _marked.push_back(curr.GetBoard());
