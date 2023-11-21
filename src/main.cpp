@@ -1,5 +1,5 @@
 #include "AStarSolver.hpp"
-#include "DFS.hpp"
+#include "BFS.hpp"
 
 #define handle_error(msg, status) \
     do                            \
@@ -8,8 +8,6 @@
         exit status;              \
     } while (0)
 
-// TODO: Refactor Taquin::_board usage (std::vector<int> change to a char[].)
-// TODO: Add a closed list to the A* solver (hashmap)
 // FIXME: The creation of new state in a Taquin is bugged
 int main()
 {
@@ -24,7 +22,7 @@ int main()
     Taquin *game = new Taquin(k);
 
     AStarSolver aStarSolver;
-    DFS dfsSolver;
+    BFS bfsSolver;
 
     int choice = 0;
 
@@ -41,7 +39,7 @@ int main()
             aStarSolver.SettingSolver(*game);
             break;
         case 2:
-            dfsSolver.Solution(*game);
+            bfsSolver.SettingSolver(*game);
             break;
         case 0:
             break;
