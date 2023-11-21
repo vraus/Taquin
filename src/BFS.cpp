@@ -7,29 +7,31 @@ void BFS::Solution()
     {
         std::cout << "\e[1;1H\e[2J";
         curr = _list[0];
+        curr.Print();
 
         if (curr.IsFinalState())
         {
-            std::cout << "Final state !\n";
-            curr.Print();
-            break;
+            std::cout << "Final state found!\n";
+            return;
         }
 
         _list.erase(_list.begin());
-        curr.Print();
         _marked.push_back(curr.GetBoard());
+
         curr.GenerateNextStates();
         for (uint i = 0; i < curr.GetChildStatesSize(); i++)
         {
-            if (curr.GetChildStates(i).IsFinalState())
+            Taquin child = curr.GetChildStates(i);
+            if (child.IsFinalState())
             {
                 std::cout << "Final state !\n";
-                curr.GetChildStates(i).Print();
-                break;
+                child.Print();
+                return;
             }
-            if (!IsMarked(curr.GetChildStates(i)))
+
+            if (!IsMarked(child))
             {
-                _list.push_back(curr.GetChildStates(i));
+                _list.push_back(child);
             }
         }
     } while (!_list.empty());
