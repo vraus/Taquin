@@ -30,7 +30,7 @@ int main()
     {
         std::cout << "Choose you resolution method: " << std::endl;
         std::cout << " * (1) : A* Resolution." << std::endl;
-        std::cout << " * (2) : DFS Resolution." << std::endl;
+        std::cout << " * (2) : BFS Resolution." << std::endl;
         std::cout << " * (0) : Exit." << std::endl;
         std::cin >> choice;
         switch (choice)
