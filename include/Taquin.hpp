@@ -75,6 +75,8 @@ public:
     /** @returns True if the current state is the source state. */
     bool IsSource() { return _sourceBoard == nullptr; }
 
+    int GetMooves() { return _mooves; }
+
     /** @returns True if the current state is the final board */
     bool IsFinalState()
     {

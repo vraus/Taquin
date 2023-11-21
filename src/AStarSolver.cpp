@@ -14,10 +14,10 @@ int AStarSolver::Solution()
     std::ios_base::sync_with_stdio(false);
     time(&end);
 
-    // for (auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(curr.GetSize());
-    //      std::chrono::system_clock::now() < runUntil;)
-    for (;;)
+    for (auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(curr.GetSize());
+         std::chrono::system_clock::now() < runUntil;)
     {
+        std::cout << "\e[1;1H\e[2J";
         int minPQ = pq[0].GetMpriority();
         int indexMinPQ = 0;
         // Search for min in the PQ
@@ -36,7 +36,7 @@ int AStarSolver::Solution()
         if (curr.IsFinalState())
         {
 
-            std::cout << "Etat Resolu! " << std::endl;
+            std::cout << "Etat Resolu en " << curr.GetMooves() << std::endl;
             break;
         }
 
@@ -52,7 +52,7 @@ int AStarSolver::Solution()
             if (curr.IsFinalState())
             {
 
-                std::cout << "Etat Resolu! " << std::endl;
+                std::cout << "Etat Resolu en " << curr.GetMooves() << std::endl;
                 break;
             }
             else if (!isMarked(curr.GetChildStates(i)))
