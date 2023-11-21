@@ -40,6 +40,12 @@ public:
      */
     int Manhattan();
 
+    int GetInvCount();
+
+    int FindZero();
+
+    bool IsSolvable();
+
     void Print();
 
     void GenerateNextStates();

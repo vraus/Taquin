@@ -29,15 +29,6 @@ Taquin::Taquin(int k)
     _Mpriority = _manhattan;
 
     _sourceBoard = nullptr; // This is the initial board: it is it's own source
-
-    std::cout << "final state" << std::endl;
-    int index = 0;
-    for (int i = 0; i < _k; i++)
-    {
-        for (int j = 0; j < _k; j++)
-            std::cout << _finalState[index++] << " ";
-        std::cout << std::endl;
-    }
 }
 
 Taquin::Taquin(std::vector<int> board, int mooves, int k, Taquin *source)
@@ -117,17 +108,8 @@ void Taquin::Print()
 void Taquin::GenerateNextStates()
 {
 
-    int index_Zero;
+    int index_Zero = FindZero();
     int mooves = _mooves + 1;
-
-    for (int i = 0; i < _size; i++)
-    {
-        if (_board[i] == 0)
-        {
-            index_Zero = i;
-            break;
-        }
-    }
 
     std::vector<int> tmpBoard;
 
@@ -199,4 +181,49 @@ int operator==(std::vector<int> t1, std::vector<int> t2)
         }
     }
     return true;
+}
+
+int Taquin::GetInvCount()
+{
+    int inv_count = 0;
+    for (int i = 0; i < _size - 1; i++)
+    {
+        for (int j = i + 1; j < _size - 1; j++)
+        {
+            if (_board[j] && _board[i] && _board[i] > _board[j])
+                inv_count++;
+        }
+    }
+
+    return inv_count;
+}
+
+int Taquin::FindZero()
+{
+    int index_zero = -1;
+    for (int i = 0; i < _size; i++)
+    {
+        if (_board[i] == 0)
+        {
+            index_zero = i;
+            break;
+        }
+    }
+    return index_zero;
+}
+
+bool Taquin::IsSolvable()
+{
+    int invCount = GetInvCount();
+
+    if (_k & 1)
+        return !(invCount & 1);
+    else
+    {
+        int pos = FindZero();
+        if (pos & 1)
+            return !(invCount & 1);
+        else
+            return invCount & 1;
+    }
 }
