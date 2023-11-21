@@ -7,12 +7,14 @@ void BFS::Solution()
     {
         std::cout << "\e[1;1H\e[2J";
         curr = _list[0];
+
         if (curr.IsFinalState())
         {
             std::cout << "Final state !\n";
             curr.Print();
             break;
         }
+
         _list.erase(_list.begin());
         curr.Print();
         _marked.push_back(curr.GetBoard());
