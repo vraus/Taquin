@@ -188,13 +188,9 @@ int Taquin::GetInvCount()
     int inv_count = 0;
     for (int i = 0; i < _size - 1; i++)
     {
-        for (int j = i + 1; j < _size - 1; j++)
-        {
-            if (_board[j] && _board[i] && _board[i] > _board[j])
-                inv_count++;
-        }
+        if (_board[i + 1] && _board[i] && _board[i] > _board[i + 1])
+            inv_count++;
     }
-
     return inv_count;
 }
 

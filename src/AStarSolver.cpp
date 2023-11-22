@@ -35,9 +35,9 @@ int AStarSolver::Solution()
 
         if (curr.IsFinalState())
         {
-
-            std::cout << "Etat Resolu en " << curr.GetMooves() << std::endl;
-            break;
+            curr.Print();
+            std::cout << "Etat Resolu en " << curr.GetMooves() << " coups.\n";
+            return _iterations;
         }
 
         curr.Print();
@@ -49,11 +49,11 @@ int AStarSolver::Solution()
         for (size_t i = 0; i < curr.GetChildStatesSize(); i++)
         {
             // Check if we found a final state
-            if (curr.IsFinalState())
+            if (curr.GetChildStates(i).IsFinalState())
             {
-
-                std::cout << "Etat Resolu en " << curr.GetMooves() << std::endl;
-                break;
+                curr.GetChildStates(i).Print();
+                std::cout << "Etat Resolu en " << curr.GetChildStates(i).GetMooves() << " coups.\n";
+                return _iterations;
             }
             else if (!isMarked(curr.GetChildStates(i)))
             {
@@ -63,13 +63,6 @@ int AStarSolver::Solution()
         }
         _iterations++;
     }
-
-    std::cout << "End on state:" << std::endl;
-    curr.Print();
-
-    std::cout
-        << "Started with: " << std::endl;
-    _solution[0].Print();
 
     return _iterations;
 }
