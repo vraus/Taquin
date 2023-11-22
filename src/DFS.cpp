@@ -12,7 +12,7 @@ void DFS::Solution()
 
         if (curr.IsFinalState())
         {
-            std::cout << "Final state !\n";
+            std::cout << "Final state ! Found in " << curr.GetMooves() << "mooves.\n";
             curr.Print();
             return;
         }
@@ -25,7 +25,7 @@ void DFS::Solution()
         {
             if (curr.GetChildStates(i).IsFinalState())
             {
-                std::cout << "Final state !\n";
+                std::cout << "Final state ! Found in " << curr.GetChildStates(i).GetMooves() << "mooves.\n";
                 curr.GetChildStates(i).Print();
                 return;
             }

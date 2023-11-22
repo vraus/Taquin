@@ -11,7 +11,7 @@ void BFS::Solution()
 
         if (curr.IsFinalState())
         {
-            std::cout << "Final state found!\n";
+            std::cout << "Final state ! Found in " << curr.GetMooves() << "mooves.\n";
             return;
         }
 
@@ -21,17 +21,16 @@ void BFS::Solution()
         curr.GenerateNextStates();
         for (uint i = 0; i < curr.GetChildStatesSize(); i++)
         {
-            Taquin child = curr.GetChildStates(i);
-            if (child.IsFinalState())
+            if (curr.GetChildStates(i).IsFinalState())
             {
-                std::cout << "Final state !\n";
-                child.Print();
+                std::cout << "Final state ! Found in " << curr.GetChildStates(i).GetMooves() << "mooves.\n";
+                curr.GetChildStates(i).Print();
                 return;
             }
 
-            if (!IsMarked(child))
+            if (!IsMarked(curr.GetChildStates(i)))
             {
-                _list.push_back(child);
+                _list.push_back(curr.GetChildStates(i));
             }
         }
     } while (!_list.empty());
@@ -44,7 +43,7 @@ bool BFS::IsMarked(Taquin state)
 {
     for (uint i = 0; i < _marked.size(); i++)
     {
-        if (_marked[i] == state.GetBoard())
+        if (state.VecCompare(state.GetBoard(), _marked[i]))
             return true;
     }
 

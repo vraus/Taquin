@@ -72,6 +72,8 @@ public:
 
     friend int operator==(std::vector<int> t1, std::vector<int> t2);
 
+    int VecCompare(std::vector<int> t1, std::vector<int> t2);
+
     /** @returns A pointer to the source of the current state. */
     Taquin GetSource()
     {

@@ -183,6 +183,18 @@ int operator==(std::vector<int> t1, std::vector<int> t2)
     return true;
 }
 
+int Taquin::VecCompare(std::vector<int> t1, std::vector<int> t2)
+{
+    for (uint i = 0; i < t1.size(); i++)
+    {
+        if (t1[i] != t2[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 int Taquin::GetInvCount()
 {
     int inv_count = 0;
